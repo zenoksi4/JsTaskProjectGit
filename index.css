@@ -261,4 +261,5 @@ td .icon-title{
 
 .category-count{
   flex-direction: row;
+  justify-content: space-between;
 }

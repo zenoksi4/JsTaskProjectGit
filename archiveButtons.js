@@ -1,7 +1,7 @@
 import {noteList} from './app.js';
 import {appendNotes} from './addNote.js';
 
-export let archiveList = []
+export let archiveList = [];
 export function getArchiveButtons() {
     let noteDeleteButtons = Array.from(document.querySelectorAll('.archive-item'));
 
@@ -18,6 +18,7 @@ function archiveNote(noteTitle){
     for(let i = 0; i < noteList.length; i++){
         if(noteList[i].title == noteTitle) {
             archiveList.push(noteList[i])
+            console.log(archiveList)
             noteList.splice(i, 1);
         }
     }
