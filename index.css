@@ -6,6 +6,7 @@
 
 a{
   text-decoration: none; 
+  cursor: default;
   
 }
 
@@ -224,11 +225,11 @@ h1{
   color: #000000
 }
 
-.icon:hover{
+.icons i:hover{
   color: #4a4a4a
 }
 
-.icon:active{
+.icons i:active{
   color: #7e7e7e
 }
 
@@ -240,9 +241,8 @@ h1{
   border-radius: 100px;
 }
 
-i{
+.icons i{
   cursor: pointer;
-
 }
 td .icon-title{
   padding: 10px;
@@ -262,4 +262,19 @@ td .icon-title{
 .category-count{
   flex-direction: row;
   justify-content: space-between;
+}
+
+.icon-title{
+  position: relative;
+}
+.note-id{
+  position: absolute;
+
+}
+
+.is-invalid{
+  background-color: #c00000;
+  border: 5px solid #c00000;
+  border-radius: 15px;
+
 }
