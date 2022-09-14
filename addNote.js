@@ -2,6 +2,7 @@ import {getDeleteButtons} from './deleteButtons.js';
 import {noteList} from './app.js';
 import { getArchiveButtons } from './archiveButtons.js';
 import { getEditButtons } from './editButtons.js';
+import { countActive, countArchive} from './countNotes.js';
 
 let cansel = document.querySelector('.cansel-btn');
 let bodyActiveTable = document.querySelector('.active-table');
@@ -25,13 +26,13 @@ export function addNote(e, noteList){
         newNote.note = note.value;
         date.value ? newNote.date = new Date(date.value) : newNote.date = '';
     }
-    console.log(newNote);
+
     title.value = '';
     note.value = '';
     date.value = '';
 
     noteList.push(newNote);
-    console.log(newNote.date);
+
     appendNotes(noteList);
     cansel.click();
 
@@ -62,21 +63,35 @@ export function appendNotes (noteList, isArchive = false) {
         tdTitle.innerText = note.title;
         tdTitle.appendChild(titleIcon);
 
-
         let tdcreated = document.createElement('td');
-        tdcreated.innerText = new Date().toLocaleDateString("en-US");
-        tdcreated.fulldate = new Date();
+        tdcreated.innerText = new Date().toLocaleDateString("uk");
 
-        console.log(tdcreated.fulldate);
         let tdcategory = document.createElement('td');
         tdcategory.innerText = note.category;
         
-
         let tdNote = document.createElement('td');
+        tdNote.classList = 'text-ellipsis';
         tdNote.innerText = note.note;
 
         let tddate = document.createElement('td');
-        tddate.innerText = note.date ? new Date(note.date).toLocaleDateString("en-US") : '';
+        let dates = [];
+        Array.isArray(note.date) ?
+
+            note.date.forEach(date => {
+                typeof date !== 'string' ?
+                dates.push(new Date(date).toLocaleDateString("uk")):
+                dates.push(date);
+            }) :
+
+            note.date ?
+                typeof note.date !== 'string' ?
+                    dates = new Date(note.date).toLocaleDateString("uk"):
+                    dates = note.date
+
+                : dates = ''
+
+        tddate.innerText = dates;
+
 
 
         let icons = document.createElement('td');
@@ -92,7 +107,7 @@ export function appendNotes (noteList, isArchive = false) {
             tdArchive.innerHTML = '<i class="fa-solid fa-box-archive"></i>';
             
             let tdEdit = document.createElement('a');
-            tdEdit.href = '#myModal'
+            tdEdit.href = '#myModalEdit'
             tdEdit.classList = 'icon edit-item';
             tdEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
 
@@ -116,14 +131,17 @@ export function appendNotes (noteList, isArchive = false) {
         getDeleteButtons(noteList, isArchive);
         getArchiveButtons();
         getEditButtons();
+
+        countActive();
+        countArchive();
     })
 }
 
 
 function addIconTitle(category){
-    if (category === 'category1'){
+    if (category === 'Task'){
         return '<i class="fa-solid fa-shop"></i>'
-    }else if(category === 'category2'){
+    }else if(category === 'Random Thought'){
         return '<i class="fa-regular fa-lightbulb"></i>'
     }else{
         return '<i class="fa-solid fa-head-side-virus"></i>'
